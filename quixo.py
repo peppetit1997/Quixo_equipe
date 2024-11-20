@@ -94,8 +94,7 @@ def interpréter_la_commande():
     """Génère un interpréteur de commande.
     Returns:
         Namespace: Un objet Namespace tel que retourné par parser.parse_args().
-            Cet objet aura l'attribut «idul» représentant l'idul du joueur
-            et l'attribut «parties» qui est un booléen True/False.
+            Cet objet aura l'attribut «idul» représentant l'idul du joueur.
     """
     parser = argparse.ArgumentParser()
 
