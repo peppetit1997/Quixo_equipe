@@ -1,0 +1,3 @@
+class QuixoError(Exception):
+
+    pass

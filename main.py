@@ -7,7 +7,7 @@ from api import initialiser_partie, jouer_un_coup
 from quixo import Quixo, interpréter_la_commande
 
 # Mettre ici votre secret récupérer depuis le site de PAX
-SECRET = ""
+SECRET = "525306d0-659f-4d30-bcc0-d20b30521b56"
 
 
 if __name__ == "__main__":
