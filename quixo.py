@@ -54,7 +54,7 @@ class Quixo:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        entete = "Légende:\n   X=" + list(self.joueurs)[0] + "\n   O=" + list(self.joueurs)[1] + "\n"
+        entete = "Légende:\n   X=" +list(self.joueurs)[0] + "\n   O=" + list(self.joueurs)[1] + "\n"
         return entete + str(self.plateau)
 
     def déplacer_pion(self, pion, origine, direction):
@@ -69,27 +69,27 @@ class Quixo:
         """
         if pion not in ["X", "o"]:
             raise QuixoError("Le pion doit etre 'X' ou 'O'.")
-        if direction not in ["haut", "bas", "gauche", "droite"]: 
+        if direction not in ["haut", "bas", "gauche", "droite"]:
             raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
-        
+
         x, y = origine
-        
+
 
         if direction == "haut":
-            nouvelle_position = [x - 1, y] 
-        elif direction == "bas": 
-            nouvelle_position = [x + 1, y] 
-        elif direction == "gauche": 
-            nouvelle_position = [x, y - 1] 
-        elif direction == "droite": 
+            nouvelle_position = [x - 1, y]
+        elif direction == "bas":
+            nouvelle_position = [x + 1, y]
+        elif direction == "gauche":
+            nouvelle_position = [x, y - 1]
+        elif direction == "droite":
             nouvelle_position = [x, y + 1]
 
-        if not (1 <= nouvelle_position[0] <= 5 and 1 <= nouvelle_position[1] <= 5): 
+        if not (1 <= nouvelle_position[0] <= 5 and 1 <= nouvelle_position[1] <= 5):
             raise QuixoError("La nouvelle position est hors limites.")
-        
+
         self.__setitem__(origine, " ")
         self.insérer_un_cube(pion, nouvelle_position, direction)
-        
+
 
     def choisir_un_coup(self):
         """Demander le prochain coup à jouer au joueur.
@@ -113,7 +113,7 @@ class Quixo:
         try:
             x = int(input("Donnez la position d'origine du bloc (x, y):\nx = "))
             y = int(input("y = "))
-            
+
             if not (1 <= x <= 5 and 1 <= y <= 5):
                 raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
 
@@ -121,12 +121,12 @@ class Quixo:
 
             direction = input("Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite'):\n")
 
-            if direction not in ["haut", "bas", "gauche", "droite"]: 
+            if direction not in ["haut", "bas", "gauche", "droite"]:
                 raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
-            
+
             return (origine, direction)
-        
-        except ValueError: 
+
+        except ValueError:
             raise QuixoError("Les positions x et y doivent être des entiers.")
 
 

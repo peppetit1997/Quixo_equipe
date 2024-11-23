@@ -94,7 +94,7 @@ class Plateau:
             raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
         if valeur not in["X", "O", " "]:
             raise QuixoError("Valeur du cube invalide.")
-        
+
         self.plateau[x-1][y-1] = valeur
 
 
@@ -147,11 +147,11 @@ class Plateau:
             QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".
             QuixoError: Le cube à insérer ne peut pas être vide.
         """
-        if direction is not["haut", "bas", "gauche", "droite"]:
+        if direction != ["haut", "bas", "gauche", "droite"]:
             raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
-        if cube is not["X", "O"]:
+        if cube != ["X", "O"]:
             raise QuixoError("Le cube à insérer ne peut pas être vide.")
-        
+
         if direction == "haut":
             self.insérer_par_le_haut(cube, origine)
         elif direction == "bas":
