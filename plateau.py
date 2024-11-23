@@ -41,7 +41,16 @@ class Plateau:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        pass
+        lignes = ["   -------------------"]
+        for i, ligne in enumerate(self.plateau):
+            lignes.append(f"{i + 1} | " + " | ".join(ligne) + " |")
+        if i < len(self.plateau) - 1:
+            lignes.append("  |---|---|---|---|---|")
+
+        lignes.append("--|---|---|---|---|---|")
+        lignes.append("  | 1   2   3   4   5 |")
+        return "\n".join(lignes) + "\n"
+
 
     def __getitem__(self, position):
         """Retourne la valeur à la position donnée
@@ -55,7 +64,11 @@ class Plateau:
         Raises:
             QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.
         """
-        pass
+        x, y = position
+        if not (1 <= x <= 5 and 1 <= y <= 5):
+            raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
+
+        return self.plateau[x-1][y-1]
 
     def __setitem__(self, position, valeur):
         """Modifie la valeur à la position donnée
