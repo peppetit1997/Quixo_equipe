@@ -41,14 +41,23 @@ class Plateau:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        lignes = ["   -------------------"]
-        for i, ligne in enumerate(self.plateau):
-            lignes.append(f"{i + 1} | " + " | ".join(" " for _ in ligne) + " |")
-            if i < len(self.plateau) - 1:
-                lignes.append("  |---|---|---|---|---|")
-        lignes.append("--|---|---|---|---|---|")
-        lignes.append("  | 1   2   3   4   5 |")
-        return "\n".join(lignes) + "\n"
+        plateau_formate = "   -------------------\n"
+        for index, ligne in enumerate(self.plateau):
+            plateau_formate += f"{index + 1} |"
+            for cell in ligne:
+                if cell == "X":
+                    plateau_formate += " X |"
+                elif cell == "O":
+                    plateau_formate += " O |"
+                else:
+                    plateau_formate += "   |"
+            if index + 1 < len(self.plateau):
+                plateau_formate += "\n  |---|---|---|---|---|\n"
+        plateau_formate += "\n--|---|---|---|---|---|\n"
+        plateau_formate += "  | 1   2   3   4   5 |\n"
+        return plateau_formate
+
+
 
 
     def __getitem__(self, position):
