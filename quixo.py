@@ -133,7 +133,7 @@ class Quixo:
                 "Quelle direction voulez-vous insérer? "
                 "('haut', 'bas', 'gauche', 'droite'):\n"
             )
-            
+
             if direction not in ["haut", "bas", "gauche", "droite"]:
                 raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
 
