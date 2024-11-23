@@ -81,7 +81,14 @@ class Plateau:
             QuixoError: Les positions x et y doivent être entre 1 et 5 inclusivement.
             QuixoError: Valeur du cube invalide.
         """
-        pass
+        x, y = position
+        if not (1 <= x <= 5 and 1 <= y <= 5):
+            raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
+        if valeur not in["X", "O", " "]:
+            raise QuixoError("Valeur du cube invalide.")
+        
+        self.plateau[x-1][y-1] = valeur
+
 
     def générer_le_plateau(self, plateau):
         """Génère un plateau de jeu
@@ -103,6 +110,7 @@ class Plateau:
         """
         pass
 
+
     def insérer_un_cube(self, cube, origine, direction):
         """Insère un cube dans le plateau
 
@@ -121,7 +129,20 @@ class Plateau:
             QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".
             QuixoError: Le cube à insérer ne peut pas être vide.
         """
-        pass
+        if direction is not["haut", "bas", "gauche", "droite"]:
+            raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
+        if cube is not["X", "O"]:
+            raise QuixoError("Le cube à insérer ne peut pas être vide.")
+        
+        if direction == "haut":
+            self.insérer_par_le_haut(cube, origine)
+        elif direction == "bas":
+            self.insérer_par_le_bas(cube, origine)
+        elif direction == "gauche":
+            self.insérer_par_la_gauche(cube, origine)
+        elif direction == "droite":
+            self.insérer_par_la_droite(cube, origine)
+
 
     def insérer_par_le_bas(self, cube, origine):
         """Insère un cube dans le plateau en direction du bas
@@ -132,6 +153,7 @@ class Plateau:
         """
         pass
 
+
     def insérer_par_le_haut(self, cube, origine):
         """Insère un cube dans le plateau en direction du haut
 
@@ -141,6 +163,7 @@ class Plateau:
         """
         pass
 
+
     def insérer_par_la_gauche(self, cube, origine):
         """Insère un cube dans le plateau en direction de la gauche
 
@@ -149,6 +172,7 @@ class Plateau:
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
         pass
+
 
     def insérer_par_la_droite(self, cube, origine):
         """Insère un cube dans le plateau en direction de la droite
