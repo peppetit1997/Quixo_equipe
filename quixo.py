@@ -129,13 +129,11 @@ class Quixo:
 
             origine = [x, y]
 
-            entete = (
-    "Légende:\n"
-    f"   X={self.joueurs[0]}\n"
-    f"   O={self.joueurs[1]}\n"
-)
-
-
+            direction = input(
+                "Quelle direction voulez-vous insérer? "
+                "('haut', 'bas', 'gauche', 'droite'):\n"
+            )
+            
             if direction not in ["haut", "bas", "gauche", "droite"]:
                 raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
 
