@@ -63,7 +63,7 @@ class Plateau:
         plateau_formate += "\n--|---|---|---|---|---|\n"
         plateau_formate += "  | 1   2   3   4   5 |\n"
         return plateau_formate
-    
+
 
     def __getitem__(self, position):
         """Retourne la valeur à la position donnée

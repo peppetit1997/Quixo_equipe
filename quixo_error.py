@@ -1,6 +1,12 @@
+"""Module de gestion des erreurs pour le jeu Quixo.
+
+Ce module définit l'exception personnalisée utilisée pour signaler les erreurs spécifiques 
+qui peuvent survenir lors de l'exécution du jeu Quixo.
+"""
+
 class QuixoError(Exception):
     """
-    Module de gestion des erreurs pour le jeu Quixo.
+    Classe d'exception personnalisée pour le jeu Quixo.
 
     Cette classe définit une exception personnalisée utilisée pour signaler les erreurs spécifiques 
     qui peuvent survenir lors de l'exécution du jeu Quixo.
@@ -8,7 +14,6 @@ class QuixoError(Exception):
     Attributes:
         None: Il n'y a pas d'attributs spécifiques pour cette classe.
 
-    Functions:
-        QuixoError: Exception personnalisée pour signaler des erreurs spécifiques dans le jeu Quixo.
+    Methods:
+        None: Il n'y a pas de méthodes spécifiques pour cette classe.
     """
-    pass
