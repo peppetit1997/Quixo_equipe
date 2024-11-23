@@ -10,6 +10,13 @@ from quixo_error import QuixoError
 
 
 class Plateau:
+    """Classe principale du plateau de jeu Quixo. 
+    
+    Cette classe gère les opérations sur le plateau de jeu, 
+    
+    y compris l'insertion et le déplacement des cubes. 
+    """
+
     def __init__(self, plateau=None):
         """Constructeur de la classe Plateau
 
@@ -56,9 +63,7 @@ class Plateau:
         plateau_formate += "\n--|---|---|---|---|---|\n"
         plateau_formate += "  | 1   2   3   4   5 |\n"
         return plateau_formate
-
-
-
+    
 
     def __getitem__(self, position):
         """Retourne la valeur à la position donnée
@@ -77,6 +82,7 @@ class Plateau:
             raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
 
         return self.plateau[x-1][y-1]
+
 
     def __setitem__(self, position, valeur):
         """Modifie la valeur à la position donnée
@@ -123,9 +129,9 @@ class Plateau:
         for ligne in plateau:
             if len(ligne) != 5:
                 raise QuixoError("Format du plateau invalide.")
-        for cube in ligne:
-            if cube not in ["X", "O", " "]:
-                raise QuixoError("Valeur du cube invalide.")
+            for cube in ligne:
+                if cube not in ["X", "O", " "]:
+                    raise QuixoError("Valeur du cube invalide.")
         return plateau
 
 

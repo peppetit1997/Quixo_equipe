@@ -16,6 +16,11 @@ from plateau import Plateau
 
 
 class Quixo:
+    """Classe principale du jeu Quixo.
+    
+    Cette classe gère l'état du jeu et les interactions avec le plateau.
+    """
+
     def __init__(self, joueurs, plateau=None) -> None:
         """Constructeur de la classe Quixo
 
@@ -54,7 +59,12 @@ class Quixo:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        entete = "Légende:\n   X=" +list(self.joueurs)[0] + "\n   O=" + list(self.joueurs)[1] + "\n"
+        entete = (
+    "Légende:\n"
+    f"   X={self.joueurs[0]}\n"
+    f"   O={self.joueurs[1]}\n"
+)
+
         return entete + str(self.plateau)
 
     def déplacer_pion(self, pion, origine, direction):
@@ -87,8 +97,8 @@ class Quixo:
         if not (1 <= nouvelle_position[0] <= 5 and 1 <= nouvelle_position[1] <= 5):
             raise QuixoError("La nouvelle position est hors limites.")
 
-        self.__setitem__(origine, " ")
-        self.insérer_un_cube(pion, nouvelle_position, direction)
+        self.plateau[origine] = " "
+        self.plateau.insérer_un_cube(pion, nouvelle_position, direction)
 
 
     def choisir_un_coup(self):
@@ -126,8 +136,8 @@ class Quixo:
 
             return (origine, direction)
 
-        except ValueError:
-            raise QuixoError("Les positions x et y doivent être des entiers.")
+        except ValueError as exc:
+            raise QuixoError("Les positions x et y doivent être des entiers.") from exc
 
 
 def interpréter_la_commande():
