@@ -169,7 +169,11 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, 1):
+            self[(x, i)] = self[x, i+1]
+        self[(x, y)] = cube
+
 
 
     def insérer_par_le_haut(self, cube, origine):
@@ -179,7 +183,10 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, -1):
+            self[(x, i)] = self[x, i-1]
+        self[(x, y)] = cube
 
 
     def insérer_par_la_gauche(self, cube, origine):
@@ -189,7 +196,10 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, 1):
+            self[(i, y)] = self[i+1, y]
+        self[(x, y)] = cube
 
 
     def insérer_par_la_droite(self, cube, origine):
@@ -199,4 +209,7 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, -1):
+            self[(i, y)] = self[i-1, y]
+        self[(x, y)] = cube
