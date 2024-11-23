@@ -130,18 +130,18 @@ class Quixo:
             raise QuixoError("Les positions x et y doivent être des entiers.")
 
 
-    def interpréter_la_commande():
-        """Génère un interpréteur de commande.
-        Returns:
-            Namespace: Un objet Namespace tel que retourné par parser.parse_args().
-                Cet objet aura l'attribut «idul» représentant l'idul du joueur.
-        """
-        parser = argparse.ArgumentParser()
-        parser.add_argument("idul", help="IDUL du joueur (Identifiant unique de l'université Laval)")
-        return parser.parse_args()
+def interpréter_la_commande():
+    """Génère un interpréteur de commande.
+    Returns:
+        Namespace: Un objet Namespace tel que retourné par parser.parse_args().
+            Cet objet aura l'attribut «idul» représentant l'idul du joueur.
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("idul", help="IDUL du joueur (Identifiant unique de l'université Laval)")
+    return parser.parse_args()
 
 
-        # Complétez le code ici
-        # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
+    # Complétez le code ici
+    # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
 
-        return parser.parse_args()
+    return parser.parse_args()
