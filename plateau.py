@@ -43,10 +43,9 @@ class Plateau:
         """
         lignes = ["   -------------------"]
         for i, ligne in enumerate(self.plateau):
-            lignes.append(f"{i + 1} | " + " | ".join(ligne) + " |")
-        if i < len(self.plateau) - 1:
-            lignes.append("  |---|---|---|---|---|")
-
+            lignes.append(f"{i + 1} | " + " | ".join(" " for _ in ligne) + " |")
+            if i < len(self.plateau) - 1:
+                lignes.append("  |---|---|---|---|---|")
         lignes.append("--|---|---|---|---|---|")
         lignes.append("  | 1   2   3   4   5 |")
         return "\n".join(lignes) + "\n"
@@ -108,7 +107,17 @@ class Plateau:
             QuixoError: Format du plateau invalide.
             QuixoError: Valeur du cube invalide.
         """
-        pass
+        if plateau is None:
+            return [["" for _ in range(5)] for _ in range(5)]
+        if len(plateau) != 5:
+            raise QuixoError("Format du plateau invalide.")
+        for ligne in plateau:
+            if len(ligne) != 5:
+                raise QuixoError("Format du plateau invalide.")
+        for cube in ligne:
+            if cube not in ["X", "O", " "]:
+                raise QuixoError("Valeur du cube invalide.")
+        return plateau
 
 
     def insérer_un_cube(self, cube, origine, direction):
