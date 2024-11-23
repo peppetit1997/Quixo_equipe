@@ -41,15 +41,23 @@ class Plateau:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        lignes = ["   -------------------"]
-        for i, ligne in enumerate(self.plateau):
-            lignes.append(f"{i + 1} | " + " | ".join(ligne) + " |")
-        if i < len(self.plateau) - 1:
-            lignes.append("  |---|---|---|---|---|")
+        plateau_formate = "   -------------------\n"
+        for index, ligne in enumerate(self.plateau):
+            plateau_formate += f"{index + 1} |"
+            for cell in ligne:
+                if cell == "X":
+                    plateau_formate += " X |"
+                elif cell == "O":
+                    plateau_formate += " O |"
+                else:
+                    plateau_formate += "   |"
+            if index + 1 < len(self.plateau):
+                plateau_formate += "\n  |---|---|---|---|---|\n"
+        plateau_formate += "\n--|---|---|---|---|---|\n"
+        plateau_formate += "  | 1   2   3   4   5 |\n"
+        return plateau_formate
 
-        lignes.append("--|---|---|---|---|---|")
-        lignes.append("  | 1   2   3   4   5 |")
-        return "\n".join(lignes) + "\n"
+
 
 
     def __getitem__(self, position):
@@ -108,7 +116,17 @@ class Plateau:
             QuixoError: Format du plateau invalide.
             QuixoError: Valeur du cube invalide.
         """
-        pass
+        if plateau is None:
+            return [["" for _ in range(5)] for _ in range(5)]
+        if len(plateau) != 5:
+            raise QuixoError("Format du plateau invalide.")
+        for ligne in plateau:
+            if len(ligne) != 5:
+                raise QuixoError("Format du plateau invalide.")
+        for cube in ligne:
+            if cube not in ["X", "O", " "]:
+                raise QuixoError("Valeur du cube invalide.")
+        return plateau
 
 
     def insérer_un_cube(self, cube, origine, direction):
@@ -151,7 +169,11 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, 1):
+            self[(x, i)] = self[x, i+1]
+        self[(x, y)] = cube
+
 
 
     def insérer_par_le_haut(self, cube, origine):
@@ -161,7 +183,10 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, -1):
+            self[(x, i)] = self[x, i-1]
+        self[(x, y)] = cube
 
 
     def insérer_par_la_gauche(self, cube, origine):
@@ -171,7 +196,10 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, 1):
+            self[(i, y)] = self[i+1, y]
+        self[(x, y)] = cube
 
 
     def insérer_par_la_droite(self, cube, origine):
@@ -181,4 +209,7 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-        pass
+        x, y = origine
+        for i in range(5, 1, -1):
+            self[(i, y)] = self[i-1, y]
+        self[(x, y)] = cube

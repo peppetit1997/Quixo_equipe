@@ -54,7 +54,8 @@ class Quixo:
         Returns:
             str: Une représentation en chaîne de caractères du plateau.
         """
-        pass
+        entete = "Légende:\n   X=" + list(self.joueurs)[0] + "\n   O=" + list(self.joueurs)[1] + "\n"
+        return entete + str(self.plateau)
 
     def déplacer_pion(self, pion, origine, direction):
         """Déplacer un pion dans une direction donnée.
