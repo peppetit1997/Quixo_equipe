@@ -111,7 +111,7 @@ class Quixo:
             Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :
         """
         try:
-            x = int(input("Donnez la position d'origine du bloc (x, y):\n x = "))
+            x = int(input("Donnez la position d'origine du bloc (x, y):\nx = "))
             y = int(input("y = "))
             
             if not (1 <= x <= 5 and 1 <= y <= 5):
