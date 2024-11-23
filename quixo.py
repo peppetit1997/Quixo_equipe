@@ -67,7 +67,29 @@ class Quixo:
             origine (list[int]): La position (x, y) du pion sur le plateau.
             direction (str): La direction du déplacement, soit "haut", "bas", "gauche" ou "droite".
         """
-        pass
+        if pion not in ["X", "o"]:
+            raise QuixoError("Le pion doit etre 'X' ou 'O'.")
+        if direction not in ["haut", "bas", "gauche", "droite"]: 
+            raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
+        
+        x, y = origine
+        
+
+        if direction == "haut":
+            nouvelle_position = [x - 1, y] 
+        elif direction == "bas": 
+            nouvelle_position = [x + 1, y] 
+        elif direction == "gauche": 
+            nouvelle_position = [x, y - 1] 
+        elif direction == "droite": 
+            nouvelle_position = [x, y + 1]
+
+        if not (1 <= nouvelle_position[0] <= 5 and 1 <= nouvelle_position[1] <= 5): 
+            raise QuixoError("La nouvelle position est hors limites.")
+        
+        self.__setitem__(origine, " ")
+        self.insérer_un_cube(pion, nouvelle_position, direction)
+        
 
     def choisir_un_coup(self):
         """Demander le prochain coup à jouer au joueur.
@@ -88,21 +110,38 @@ class Quixo:
             Donnez la position d'origine du bloc (x,y) :
             Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') :
         """
-        pass
+        try:
+            x = int(input("Donnez la position d'origine du bloc (x, y):\n x = "))
+            y = int(input("y = "))
+            
+            if not (1 <= x <= 5 and 1 <= y <= 5):
+                raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
+
+            origine = [x, y]
+
+            direction = input("Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite'):\n")
+
+            if direction not in ["haut", "bas", "gauche", "droite"]: 
+                raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
+            
+            return (origine, direction)
+        
+        except ValueError: 
+            raise QuixoError("Les positions x et y doivent être des entiers.")
 
 
-def interpréter_la_commande():
-    """Génère un interpréteur de commande.
-    Returns:
-        Namespace: Un objet Namespace tel que retourné par parser.parse_args().
-            Cet objet aura l'attribut «idul» représentant l'idul du joueur.
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("idul", help="IDUL du joueur (Identifiant unique de l'université Laval)")
-    return parser.parse_args()
+    def interpréter_la_commande():
+        """Génère un interpréteur de commande.
+        Returns:
+            Namespace: Un objet Namespace tel que retourné par parser.parse_args().
+                Cet objet aura l'attribut «idul» représentant l'idul du joueur.
+        """
+        parser = argparse.ArgumentParser()
+        parser.add_argument("idul", help="IDUL du joueur (Identifiant unique de l'université Laval)")
+        return parser.parse_args()
 
 
-    # Complétez le code ici
-    # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
+        # Complétez le code ici
+        # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
 
-    return parser.parse_args()
+        return parser.parse_args()
