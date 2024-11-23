@@ -103,4 +103,12 @@ def récupérer_une_partie(id_partie, idul, secret):
         tuple: Tuple de 4 éléments constitué de l'identifiant de la partie en cours,
             de la liste des joueurs, de l'état du plateau et du vainqueur.
     """
-    pass
+    rep = requests.get(URL + id_partie, auth=(idul, secret))
+    if rep.status_code == 200:
+        data = rep.json()
+        return data["id"], data["état"]["joueurs"], data["état"]["plateau"], data["gagnant"]
+    if rep.status_code == 401:
+        raise PermissionError(rep.text)
+    if rep.status_code == 406:
+        raise RuntimeError(rep.text)
+    raise ConnectionError
