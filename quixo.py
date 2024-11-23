@@ -139,9 +139,3 @@ def interpréter_la_commande():
     parser = argparse.ArgumentParser()
     parser.add_argument("idul", help="IDUL du joueur (Identifiant unique de l'université Laval)")
     return parser.parse_args()
-
-
-    # Complétez le code ici
-    # vous pourriez aussi avoir à ajouter des arguments dans ArgumentParser(...)
-
-    return parser.parse_args()
