@@ -11,8 +11,7 @@ Functions:
 
 import requests
 
-URL = "https://pax.ulaval.ca/quixo/api/a24/"
-
+URL = "https://pax.ulaval.ca/quixo/api/a24/partie/"
 
 def initialiser_partie(idul, secret):
     """Initialiser une partie
@@ -90,6 +89,7 @@ def récupérer_une_partie(id_partie, idul, secret):
     """Récupérer une partie
 
     Args:
+
         id_partie (str): identifiant de la partie à récupérer
         idul (str): idul du joueur
         secret (str): secret récupérer depuis le site de PAX
