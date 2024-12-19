@@ -261,4 +261,3 @@ args = parser.parse_args()"""
 
 #Je l'ai pas rajouter au main parce qu'il y a encore des choses que je comprends pas.
 # Aussi je continue a travailler dessus et tu me dis ce que tu en penses.
-    

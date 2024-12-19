@@ -1,4 +1,5 @@
 from quixo import Quixo
+from quixo_error import QuixoError
 
 class QuixoIA(Quixo):
     def __init__(self):
@@ -126,7 +127,26 @@ class QuixoIA(Quixo):
                 resultats["O"][compteur_o] += 1
 
         return resultats
+# ajout d'une méthode
+    def déterminer_coup(self, plateau):
+        """Détermine le coup à jouer pour l'IA.
+        
+        Args:
+            plateau (list[list[str]]): Le plateau de jeu sous forme de grille 5x5
+            
+        Returns:
+            tuple: Tuple de 2 éléments composé de l'origine du bloc à déplacer et de sa direction.
+        
+        """
 
+        cube = "X"
+        coups_possibles = self.lister_les_coups_possibles(plateau, cube)
+
+        if coups_possibles:
+            coup = coups_possibles[0]
+            return coup["origine"], coup["direction"]
+        else:
+            raise QuixoError("Aucun coup possible.")
 
     def partie_terminée(self):
         """Détermine si la partie est terminée et retourne le résultat."""
