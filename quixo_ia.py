@@ -17,9 +17,8 @@ class QuixoIA(Quixo):
 
         for x in range(5):
             for y in range(5):
-                if x in [1, 4] or y in [1, 4]:
-                    if plateau[x][y] == " " or plateau[x][y] == cube:
-                        Coordonnees_disponibles.append((x, y))
+                if (x in [1, 4] or y in [1, 4]) and (plateau[x][y] == " " or plateau[x][y] == cube):
+                    Coordonnees_disponibles.append((x, y))
 
         for (x, y) in Coordonnees_disponibles:
             if x > 0:
@@ -157,7 +156,6 @@ class QuixoIA(Quixo):
 
         print(f"Aucun coup gagnant trouvé pour {symbole}.")
         return None
-
 
     def trouver_un_coup_bloquant(self, symbole):
         symbole_adversaire = "X" if symbole == "O" else "O"
