@@ -21,8 +21,8 @@ class QuixoIA(Quixo):
         Coordonnees_disponibles = []
 
         # Parcourir les bords pour trouver les cubes jouables
-        for x in range(5):
-            for y in range(5):
+        for x in range(4):
+            for y in range(4):
                 # Vérifier si la case est sur un bord
                 if x in [1, 5] or y in [1, 5]:
                     # Ajouter la case si elle est vide ou contient le symbole du joueur
@@ -44,15 +44,100 @@ class QuixoIA(Quixo):
         return Coups_possibles
 
         
-    def analyser_le_plateau(self):
-        """Analyse l'état actuel du plateau."""
-        pass
+    def analyser_le_plateau(plateau):
+        """Analyse l'état actuel du plateau, incluant lignes, colonnes et diagonales."""
+        resultats = {
+            "X": {2: 0, 3: 0, 4: 0},
+            "O": {2: 0, 3: 0, 4: 0}
+        }
+
+        # Analyse des lignes
+        for x in range(4):
+            compteur_x = 0
+            compteur_o = 0
+            for y in range(4):
+                if plateau[x][y] == "x":
+                    compteur_x += 1
+                    compteur_o = 0
+                elif plateau[x][y] == "O":
+                    compteur_o += 1
+                    compteur_x = 0
+                else:
+                    compteur_x = 0
+                    compteur_o = 0
+                if 2 <= compteur_x <= 4:
+                    resultats["X"][compteur_x] += 1
+                if 2 <= compteur_o <= 4:
+                    resultats["O"][compteur_o] += 1
+
+        # Analyse des colonnes
+        for y in range(4):
+            compteur_x = 0
+            compteur_o = 0
+            for x in range(4):
+                if plateau[x][y] == "x":
+                    compteur_x += 1
+                    compteur_o = 0
+                elif plateau[x][y] == "O":
+                    compteur_o += 1
+                    compteur_x = 0
+                else:
+                    compteur_x = 0
+                    compteur_o = 0
+                if 2 <= compteur_x <= 4:
+                    resultats["X"][compteur_x] += 1
+                if 2 <= compteur_o <= 4:
+                    resultats["O"][compteur_o] += 1
+
+        # Analyse des diagonales principales
+        compteur_x = 0
+        compteur_o = 0
+        for i in range(4):
+            if plateau[i][i] == "x":
+                compteur_x += 1
+                compteur_o = 0
+            elif plateau[i][i] == "O":
+                compteur_o += 1
+                compteur_x = 0
+            else:
+                compteur_x = 0
+                compteur_o = 0
+            if 2 <= compteur_x <= 4:
+                resultats["X"][compteur_x] += 1
+            if 2 <= compteur_o <= 4:
+                resultats["O"][compteur_o] += 1
+
+        # Analyse des diagonales secondaires
+        compteur_x = 0
+        compteur_o = 0
+        for i in range(4):
+            if plateau[i][3 - i] == "x":
+                compteur_x += 1
+                compteur_o = 0
+            elif plateau[i][3 - i] == "O":
+                compteur_o += 1
+                compteur_x = 0
+            else:
+                compteur_x = 0
+                compteur_o = 0
+            if 2 <= compteur_x <= 4:
+                resultats["X"][compteur_x] += 1
+            if 2 <= compteur_o <= 4:
+                resultats["O"][compteur_o] += 1
+
+        return resultats
+
 
     def partie_terminée(self):
         """Détermine si la partie est terminée et retourne le résultat."""
-        pass
+        if self.resultats["X"][5] != 0:
+            return self.joueurs[0]
+        if self.resultats["O"][5] != 0:
+            return self.joueurs[1]
+        else:
+            return None
 
-    def trouver_un_coup_vainqueur(self):
+    def trouver_un_coup_vainqueur(self, symbole):
         """Trouve un coup permettant de gagner la partie."""
         pass
 
