@@ -1,5 +1,6 @@
 from quixo import Quixo
 from quixo_error import QuixoError
+import random
 
 class QuixoIA(Quixo):
     def __init__(self):
@@ -127,26 +128,7 @@ class QuixoIA(Quixo):
                 resultats["O"][compteur_o] += 1
 
         return resultats
-# ajout d'une méthode
-    def déterminer_coup(self, plateau):
-        """Détermine le coup à jouer pour l'IA.
-        
-        Args:
-            plateau (list[list[str]]): Le plateau de jeu sous forme de grille 5x5
-            
-        Returns:
-            tuple: Tuple de 2 éléments composé de l'origine du bloc à déplacer et de sa direction.
-        
-        """
 
-        cube = "X"
-        coups_possibles = self.lister_les_coups_possibles(plateau, cube)
-
-        if coups_possibles:
-            coup = coups_possibles[0]
-            return coup["origine"], coup["direction"]
-        else:
-            raise QuixoError("Aucun coup possible.")
 
     def partie_terminée(self):
         """Détermine si la partie est terminée et retourne le résultat."""
@@ -158,13 +140,103 @@ class QuixoIA(Quixo):
             return None
 
     def trouver_un_coup_vainqueur(self, symbole):
-        """Trouve un coup permettant de gagner la partie."""
-        pass
+        """Trouve un coup gagnant pour le joueur donné.
 
-    def trouver_un_coup_bloquant(self):
-        """Trouve un coup permettant de bloquer l'adversaire."""
-        pass
+        Args:
+            symbole (str): Le symbole du joueur ('X' ou 'O').
 
-    def jouer_un_coup(self):
-        """Joue un coup en fonction de la stratégie."""
-        pass
+        Returns:
+            dict | None: Un dictionnaire représentant un coup gagnant ou None si aucun coup gagnant n'est possible.
+        """
+        # Obtenir les coups possibles
+        coups_possibles = self.lister_les_coups_possibles(self.plateau, symbole)
+
+        for coup in coups_possibles:
+            # Créer une copie du plateau pour simuler le coup
+            nouveau_plateau = [row[:] for row in self.plateau]
+            origine_x, origine_y = coup["origine"]
+            direction = coup["direction"]
+
+            # Simuler le déplacement
+            nouveau_plateau[origine_x][origine_y] = ""
+            if direction == "haut":
+                nouveau_plateau[0][origine_y] = symbole
+            elif direction == "bas":
+                nouveau_plateau[4][origine_y] = symbole
+            elif direction == "gauche":
+                nouveau_plateau[origine_x][0] = symbole
+            elif direction == "droite":
+                nouveau_plateau[origine_x][4] = symbole
+
+            # Vérifier si le coup permet de compléter une ligne de 5
+            analyse = self.analyser_le_plateau(nouveau_plateau)
+            if analyse[symbole][5] > 0:  # Une ligne de 5 est formée
+                return coup  # Retourner immédiatement le coup gagnant
+
+        return None  # Aucun coup gagnant trouvé
+
+    def trouver_un_coup_bloquant(self, symbole):
+        """Trouve un coup bloquant pour empêcher l'adversaire de gagner.
+
+        Args:
+            symbole (str): Le symbole du joueur ('X' ou 'O').
+
+        Returns:
+            dict | None: Un dictionnaire représentant un coup bloquant ou None si aucun coup bloquant n'est possible.
+        """
+        # Identifier le symbole de l'adversaire
+        symbole_adversaire = "X" if symbole == "O" else "O"
+
+        # Rechercher un coup vainqueur pour l'adversaire
+        coup_vainqueur_adversaire = self.trouver_un_coup_vainqueur(symbole_adversaire)
+
+        # Si un coup vainqueur existe pour l'adversaire, agir pour le bloquer
+        if coup_vainqueur_adversaire:
+            return coup_vainqueur_adversaire
+
+        # Sinon, aucun coup bloquant n'est nécessaire
+        return None
+
+class QuixoIA(Quixo):
+    def __init__(self, joueurs, plateau=None):
+        super().__init__(joueurs, plateau)
+
+    def jouer_un_coup(self, symbole):
+        """Joue un coup valide pour le joueur donné.
+
+        Args:
+            symbole (str): Le symbole du joueur ('X' ou 'O').
+
+        Returns:
+            dict: Le coup joué sous la forme {"origine": [x, y], "direction": direction}.
+
+        Raises:
+            QuixoError: Si la partie est terminée ou si le symbole est invalide.
+        """
+        # Vérifier si la partie est terminée
+        if self.plateau.vérifier_gagnant() is not None:
+            raise QuixoError("La partie est déjà terminée.")
+
+        # Vérifier si le symbole est valide
+        if symbole not in ["X", "O"]:
+            raise QuixoError('Le symbole doit être "X" ou "O".')
+
+        # Chercher un coup vainqueur
+        coup_vainqueur = self.trouver_un_coup_vainqueur(symbole)
+        if coup_vainqueur:
+            self.déplacer_pion(symbole, coup_vainqueur["origine"], coup_vainqueur["direction"])
+            return coup_vainqueur
+
+        # Chercher un coup bloquant
+        coup_bloquant = self.trouver_un_coup_bloquant(symbole)
+        if coup_bloquant:
+            self.déplacer_pion(symbole, coup_bloquant["origine"], coup_bloquant["direction"])
+            return coup_bloquant
+
+        # Liste des coups possibles
+        coups_possibles = self.lister_les_coups_possibles(self.plateau.état_plateau(), symbole)
+
+        # Choisir un coup aléatoire parmi les coups possibles
+        coup_aleatoire = random.choice(coups_possibles)
+        self.déplacer_pion(symbole, coup_aleatoire["origine"], coup_aleatoire["direction"])
+        return coup_aleatoire
