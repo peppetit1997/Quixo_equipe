@@ -3,8 +3,9 @@ from quixo_error import QuixoError
 import random
 
 class QuixoIA(Quixo):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, joueurs):
+        super().__init__(joueurs)
+
 
     def lister_les_coups_possibles(self, plateau, cube):
         """Liste tous les coups possibles pour le joueur.

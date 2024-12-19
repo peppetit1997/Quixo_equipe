@@ -240,9 +240,13 @@ class Plateau:
 
     def validation(self, origine, direction):
         x, y = origine
-        if (direction == "haut" and x == 1) or (direction == "bas" and x == 5) or
-            (direction == "gauche" and y == 1) or (direction == "droite" and y == 5):
-            raise QuixoError("Le cube ne peut pas etre inséré dans cette direction depuis la position choisie.")
+        if (
+            (direction == "haut" and x == 1) or 
+            (direction == "bas" and x == 5) or
+            (direction == "gauche" and y == 1) or 
+            (direction == "droite" and y == 5)
+        ):
+            raise QuixoError("Le cube ne peut pas être inséré dans cette direction depuis la position choisie.")
 
 
 # concernant notre main ! Je travaille a la comprehension du parse !
