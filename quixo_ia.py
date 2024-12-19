@@ -15,19 +15,21 @@ class QuixoIA(Quixo):
         Coups_possibles = []
         Coordonnees_disponibles = []
 
-        for x in range(5):
-            for y in range(5):
-                if (x in [1, 4] or y in [1, 4]) and (plateau[x][y] == " " or plateau[x][y] == cube):
+        for x in range(1, 6):  # Limiter x de 1 à 5
+            for y in range(1, 6):  # Limiter y de 1 à 5
+                if (x in [1, 5] or y in [1, 5]) and (0 <= x < len(plateau)) and (0 <= y < len(plateau[x])) and (plateau[x][y] == " " or plateau[x][y] == cube):
                     Coordonnees_disponibles.append((x, y))
 
         for (x, y) in Coordonnees_disponibles:
-            if x > 0:
+            if x > 1 and x < 5 and y > 1 and y < 5:
+                raise RuntimeError("Le joueur ne peut pas déplacer un bloc intérieur, x ou y doit avoir la valeur 1 ou 5.")
+            if x == 1:
                 Coups_possibles.append({"origine": (x, y), "direction": "haut"})
-            if x < 4:
+            if x == 5:
                 Coups_possibles.append({"origine": (x, y), "direction": "bas"})
-            if y > 0:
+            if y == 1:
                 Coups_possibles.append({"origine": (x, y), "direction": "gauche"})
-            if y < 4:
+            if y == 5:
                 Coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
         print(f"Coups possibles : {Coups_possibles}")
