@@ -153,10 +153,15 @@ class Plateau:
             QuixoError: La direction doit être "haut", "bas", "gauche" ou "droite".
             QuixoError: Le cube à insérer ne peut pas être vide.
         """
-        if direction != ["haut", "bas", "gauche", "droite"]:
+        if direction not in ["haut", "bas", "gauche", "droite"]:
             raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
-        if cube != ["X", "O"]:
+        if cube not in ["X", "O"]:
             raise QuixoError("Le cube à insérer ne peut pas être vide.")
+        
+# modification
+# validation de l'insertion du cube
+
+        self.valisation(origine, direction)
 
         if direction == "haut":
             self.insérer_par_le_haut(cube, origine)
@@ -175,10 +180,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
+# appel de la methode de validation à chaque fonction insérer 
+       
+        self.validation(origine, "bas")
         x, y = origine
-        for i in range(5, 1, 1):
-            self[(x, i)] = self[x, i+1]
-        self[(x, y)] = cube
+        for i in range(4, 0, -1):
+            self[(x, i+1)] = self[(x, i)]
+        self[(x, 1)] = cube
 
 
 
@@ -189,10 +197,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
+# appel de la methode de validation à chaque fonction insérer 
+        
+        self.validation(origine, "haut")
         x, y = origine
-        for i in range(5, 1, -1):
-            self[(x, i)] = self[x, i-1]
-        self[(x, y)] = cube
+        for i in range(1, 5):
+            self[(x, i)] = self[(x, i+1)]
+        self[(x, 5)] = cube
 
 
     def insérer_par_la_gauche(self, cube, origine):
@@ -202,10 +213,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
+# appel de la methode de validation à chaque fonction insérer 
+        
+        self.validation(origine, "gauche")
         x, y = origine
-        for i in range(5, 1, 1):
+        for i in range(1, 5):
             self[(i, y)] = self[i+1, y]
-        self[(x, y)] = cube
+        self[(5, y)] = cube
 
 
     def insérer_par_la_droite(self, cube, origine):
@@ -215,35 +229,21 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
+# appel de la methode de validation à chaque fonction insérer 
+
+        self.validation(origine, "droite")
         x, y = origine
-        for i in range(5, 1, -1):
-            self[(i, y)] = self[i-1, y]
-        self[(x, y)] = cube
+        for i in range(4, 0, -1):
+            self[(i+1, y)] = self[(i, y)]
+        self[(1, y)] = cube
 
 
     def validation(self, origine, direction):
-        if origine == direction :
-            raise QuixoError(" Le cube ne peut pas être inséré dans cette direction.")
-        pass
+        x, y = origine
+        if (direction == "haut" and x == 1) or (direction == "bas" and x == 5) or
+            (direction == "gauche" and y == 1) or (direction == "droite" and y == 5):
+            raise QuixoError("Le cube ne peut pas etre inséré dans cette direction depuis la position choisie.")
 
-
-
-"""
-Voici les modifications que j'ai en tete, mais je sais pas encore s'ils sont corrects
-Regarde et dis moi !
-
-Dans toutes les methodes: inserer par le haut, bas, droite :
-
-def insérer_par_le_bas(self, cube, origine):
-    self.validation(origine, "bas")
-    x, y = origine
-    for i in range(5, 1, -1):
-        self[(x, i)] = self[(x, i-1)]
-    self[(x, y)] = cube
-
-    
-    j'ai ajouter self.validation pour verifier et j'ai un peu modifier le range
-    """
 
 # concernant notre main ! Je travaille a la comprehension du parse !
 # Ce soir peut etre je finirai !
