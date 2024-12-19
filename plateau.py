@@ -161,7 +161,7 @@ class Plateau:
 # modification
 # validation de l'insertion du cube
 
-        self.valisation(origine, direction)
+        self.validation(origine, direction)
 
         if direction == "haut":
             self.insérer_par_le_haut(cube, origine)

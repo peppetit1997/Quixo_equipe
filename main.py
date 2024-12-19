@@ -14,7 +14,18 @@ if __name__ == "__main__":
     args = interpréter_la_commande()
     id_partie, joueurs, plateau = initialiser_partie(args.idul, SECRET)
     if args.autonome:
-        quixo = QuixoIA(joueurs, plateau)
+        while True:
+            quixoIA = QuixoIA(joueurs, plateau)
+            print(quixoIA)
+            origine, direction = quixoIA.jouer_un_coup('X')
+            # Envoyez le coup au serveur
+            id_partie, joueurs, plateau = jouer_un_coup(
+                id_partie,
+                origine,
+                direction,
+                args.idul,
+                SECRET,
+            )
     else:
         while True:
             # Créer une instance de Quixo
