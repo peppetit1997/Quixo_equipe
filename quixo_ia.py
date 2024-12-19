@@ -11,7 +11,7 @@ class QuixoIA(Quixo):
         }
 
     def lister_les_coups_possibles(self, plateau, cube):
-        print(f"Liste des coups possibles pour le cube {cube} :")
+        """Retourne la liste des coups possibles pour un cube donné."""
         Coups_possibles = []
         Coordonnees_disponibles = []
 
@@ -32,11 +32,10 @@ class QuixoIA(Quixo):
             if y == 5:
                 Coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
-        print(f"Coups possibles : {Coups_possibles}")
         return Coups_possibles
 
     def analyser_le_plateau(self, plateau):
-        print("Analyse du plateau...")
+        """Analyse le plateau et retourne les résultats de l'analyse."""
         resultats = {
             "X": {2: 0, 3: 0, 4: 0, 5: 0},
             "O": {2: 0, 3: 0, 4: 0, 5: 0}
@@ -116,7 +115,6 @@ class QuixoIA(Quixo):
             if 2 <= compteur_o <= 5:
                 resultats["O"][compteur_o] += 1
 
-        print(f"Résultat de l'analyse : {resultats}")
         return resultats
 
     def partie_terminée(self):
@@ -153,22 +151,17 @@ class QuixoIA(Quixo):
             # Analyser l'état du plateau modifié
             analyse = self.analyser_le_plateau(nouveau_plateau)
             if analyse[symbole][5] > 0:
-                print(f"Coup gagnant trouvé pour {symbole}: {coup}")
                 return coup
 
-        print(f"Aucun coup gagnant trouvé pour {symbole}.")
         return None
 
     def trouver_un_coup_bloquant(self, symbole):
         symbole_adversaire = "X" if symbole == "O" else "O"
-        print(f"Recherche d'un coup bloquant pour le symbole {symbole_adversaire}...")
         coup_vainqueur_adversaire = self.trouver_un_coup_vainqueur(symbole_adversaire)
 
         if coup_vainqueur_adversaire:
-            print(f"Coup bloquant trouvé : {coup_vainqueur_adversaire}")
             return coup_vainqueur_adversaire
 
-        print("Aucun coup bloquant nécessaire.")
         return None
 
     def jouer_un_coup(self, symbole):
@@ -179,15 +172,12 @@ class QuixoIA(Quixo):
 
         coup_vainqueur = self.trouver_un_coup_vainqueur(symbole)
         if coup_vainqueur:
-            print(f"Joue un coup gagnant : {coup_vainqueur}")
             return coup_vainqueur["origine"], coup_vainqueur["direction"]
 
         coup_bloquant = self.trouver_un_coup_bloquant(symbole)
         if coup_bloquant:
-            print(f"Joue un coup bloquant : {coup_bloquant}")
             return coup_bloquant["origine"], coup_bloquant["direction"]
 
         coups_possibles = self.lister_les_coups_possibles(self.plateau.état_plateau(), symbole)
         coup_aleatoire = random.choice(coups_possibles)
-        print(f"Joue un coup aléatoire : {coup_aleatoire}")
         return coup_aleatoire["origine"], coup_aleatoire["direction"]
