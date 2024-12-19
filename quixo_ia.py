@@ -11,14 +11,16 @@ class QuixoIA(Quixo):
         }
 
     def lister_les_coups_possibles(self, plateau, cube):
-        """Retourne la liste des coups possibles pour un cube donné."""
+        """Retourne une liste des coups possibles pour le cube donné."""
+        print(f"Liste des coups possibles pour le cube {cube} :")
         Coups_possibles = []
         Coordonnees_disponibles = []
 
         for x in range(1, 6):  # Limiter x de 1 à 5
             for y in range(1, 6):  # Limiter y de 1 à 5
-                if (x in [1, 5] or y in [1, 5]) and (0 <= x < len(plateau)) and (0 <= y < len(plateau[x])) and (plateau[x][y] == " " or plateau[x][y] == cube):
-                    Coordonnees_disponibles.append((x, y))
+                if (x in [1, 5] or y in [1, 5]) and (0 <= x < len(plateau)) and (0 <= y < len(plateau[x])):
+                    if plateau[x][y] == " " or plateau[x][y] == cube:  # Ne pas inclure les cases occupées par l'adversaire
+                        Coordonnees_disponibles.append((x, y))
 
         for (x, y) in Coordonnees_disponibles:
             if x > 1 and x < 5 and y > 1 and y < 5:
@@ -32,6 +34,7 @@ class QuixoIA(Quixo):
             if y == 5:
                 Coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
+        print(f"Coups possibles : {Coups_possibles}")
         return Coups_possibles
 
     def analyser_le_plateau(self, plateau):
