@@ -17,3 +17,8 @@ class QuixoError(Exception):
     Methods:
         None: Il n'y a pas de méthodes spécifiques pour cette classe.
     """
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return "QuixoError : {}".format(self.message)
