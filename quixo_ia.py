@@ -4,6 +4,13 @@ import random
 
 class QuixoIA(Quixo):
     def __init__(self, joueurs, plateau=None):
+        """
+        Initialise la classe QuixoIA avec les joueurs et le plateau.
+        
+        Arguments:
+        joueurs -- Liste des joueurs.
+        plateau -- (Optionnel) État initial du plateau.
+        """
         super().__init__(joueurs, plateau)
         self.resultats = {
             "X": {2: 0, 3: 0, 4: 0, 5: 0},
@@ -11,32 +18,55 @@ class QuixoIA(Quixo):
         }
 
     def lister_les_coups_possibles(self, plateau, cube):
+<<<<<<< HEAD
         """Retourne une liste des coups possibles pour le cube donné."""
         Coups_possibles = []
         Coordonnees_disponibles = []
+=======
+        """
+        Retourne une liste des coups possibles pour le cube donné.
+        
+        Arguments:
+        plateau -- État actuel du plateau.
+        cube -- Symbole du cube pour lequel lister les coups possibles.
+        """
+        print(f"Liste des coups possibles pour le cube {cube} :")
+        coups_possibles = []
+        coordonnees_disponibles = []
+>>>>>>> 6a0991bc4bce03c250fb38fbc211f6521e27856f
 
         # Modifier les bornes de 0-4 à 1-5 pour respecter la validation des coordonnées
-        for x in range(1, 6):  # Limiter x de 1 à 5
-            for y in range(1, 6):  # Limiter y de 1 à 5
-                if (x == 1 or x == 5 or y == 1 or y == 5):  # Bords du plateau
-                    if plateau[x-1][y-1] == " " or plateau[x-1][y-1] == cube:  # Ajuster l'indexation
-                        Coordonnees_disponibles.append((x, y))
+        for x in range(1, 6):
+            for y in range(1, 6):
+                if (x == 1 or x == 5 or y == 1 or y == 5):
+                    if plateau[x - 1][y - 1] == " " or plateau[x - 1][y - 1] == cube:
+                        coordonnees_disponibles.append((x, y))
 
-        for (x, y) in Coordonnees_disponibles:
+        for (x, y) in coordonnees_disponibles:
             # Vérification des bords du plateau pour éviter les déplacements hors des limites
             if x == 1:
-                Coups_possibles.append({"origine": (x, y), "direction": "haut"})
+                coups_possibles.append({"origine": (x, y), "direction": "haut"})
             if x == 5:
-                Coups_possibles.append({"origine": (x, y), "direction": "bas"})
+                coups_possibles.append({"origine": (x, y), "direction": "bas"})
             if y == 1:
-                Coups_possibles.append({"origine": (x, y), "direction": "gauche"})
+                coups_possibles.append({"origine": (x, y), "direction": "gauche"})
             if y == 5:
-                Coups_possibles.append({"origine": (x, y), "direction": "droite"})
+                coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
+<<<<<<< HEAD
         return Coups_possibles
+=======
+        print(f"Coups possibles : {coups_possibles}")
+        return coups_possibles
+>>>>>>> 6a0991bc4bce03c250fb38fbc211f6521e27856f
 
     def analyser_le_plateau(self, plateau):
-        """Analyse le plateau et retourne les résultats de l'analyse."""
+        """
+        Analyse le plateau et retourne les résultats de l'analyse.
+        
+        Arguments:
+        plateau -- État actuel du plateau.
+        """
         resultats = {
             "X": {2: 0, 3: 0, 4: 0, 5: 0},
             "O": {2: 0, 3: 0, 4: 0, 5: 0}
@@ -119,7 +149,12 @@ class QuixoIA(Quixo):
         return resultats
 
     def partie_terminée(self):
-        """Détermine si la partie est terminée et retourne le résultat."""
+        """
+        Détermine si la partie est terminée et retourne le résultat.
+        
+        Arguments:
+        Aucun.
+        """
         if self.resultats["X"][5] != 0:
             return self.joueurs[0]
         if self.resultats["O"][5] != 0:
@@ -128,7 +163,12 @@ class QuixoIA(Quixo):
             return None
 
     def trouver_un_coup_vainqueur(self, symbole):
-        """Trouve un coup gagnant pour le joueur donné."""
+        """
+        Trouve un coup gagnant pour le joueur donné.
+        
+        Arguments:
+        symbole -- Symbole du joueur (X ou O).
+        """
         coups_possibles = self.lister_les_coups_possibles(self.plateau.état_plateau(), symbole)
 
         for coup in coups_possibles:
@@ -140,22 +180,22 @@ class QuixoIA(Quixo):
 
             # Vérification que le coup n'est pas en dehors des limites
             if direction == "bas" and origine_x == 5:
-                continue  # Impossible de déplacer un cube de la dernière ligne vers le bas
+                continue
 
             # Vérification que le coup est sur un cube du joueur
-            if nouveau_plateau[origine_x-1][origine_y-1] != symbole and nouveau_plateau[origine_x-1][origine_y-1] != " ":
-                continue  # Passer ce coup si ce n'est pas un cube du joueur
+            if nouveau_plateau[origine_x - 1][origine_y - 1] != symbole and nouveau_plateau[origine_x - 1][origine_y - 1] != " ":
+                continue
 
             # Effectuer le coup sur une copie du plateau
-            nouveau_plateau[origine_x-1][origine_y-1] = ""
+            nouveau_plateau[origine_x - 1][origine_y - 1] = ""
             if direction == "haut":
-                nouveau_plateau[0][origine_y-1] = symbole
+                nouveau_plateau[0][origine_y - 1] = symbole
             elif direction == "bas":
-                nouveau_plateau[4][origine_y-1] = symbole
+                nouveau_plateau[4][origine_y - 1] = symbole
             elif direction == "gauche":
-                nouveau_plateau[origine_x-1][0] = symbole
+                nouveau_plateau[origine_x - 1][0] = symbole
             elif direction == "droite":
-                nouveau_plateau[origine_x-1][4] = symbole
+                nouveau_plateau[origine_x - 1][4] = symbole
 
             # Analyser l'état du plateau modifié
             analyse = self.analyser_le_plateau(nouveau_plateau)
@@ -165,7 +205,12 @@ class QuixoIA(Quixo):
         return None
 
     def trouver_un_coup_bloquant(self, symbole):
-        """Trouve un coup bloquant pour empêcher l'adversaire de gagner."""
+        """
+        Trouve un coup bloquant pour empêcher l'adversaire de gagner.
+        
+        Arguments:
+        symbole -- Symbole du joueur (X ou O).
+        """
         symbole_adversaire = "X" if symbole == "O" else "O"
         coup_vainqueur_adversaire = self.trouver_un_coup_vainqueur(symbole_adversaire)
 
@@ -174,8 +219,15 @@ class QuixoIA(Quixo):
 
         return None
 
+    # ... Suite de la classe QuixoIA ...
+
     def jouer_un_coup(self, symbole):
-        """Joue un coup pour le joueur spécifié (X ou O)."""
+        """
+        Joue un coup pour le joueur spécifié (X ou O).
+        
+        Arguments:
+        symbole -- Symbole du joueur (X ou O).
+        """
         if self.partie_terminée() is not None:
             raise QuixoError("La partie est déjà terminée.")
         if symbole not in ["X", "O"]:
