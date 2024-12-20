@@ -5,7 +5,6 @@ Classes:
 """
 
 from copy import deepcopy
-
 from quixo_error import QuixoError
 
 
@@ -13,7 +12,6 @@ class Plateau:
     """Classe principale du plateau de jeu Quixo. 
     
     Cette classe gère les opérations sur le plateau de jeu, 
-    
     y compris l'insertion et le déplacement des cubes. 
     """
 
@@ -64,7 +62,6 @@ class Plateau:
         plateau_formate += "  | 1   2   3   4   5 |\n"
         return plateau_formate
 
-
     def __getitem__(self, position):
         """Retourne la valeur à la position donnée
 
@@ -80,9 +77,7 @@ class Plateau:
         x, y = position
         if not (1 <= x <= 5 and 1 <= y <= 5):
             raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
-
         return self.plateau[x-1][y-1]
-
 
     def __setitem__(self, position, valeur):
         """Modifie la valeur à la position donnée
@@ -98,11 +93,9 @@ class Plateau:
         x, y = position
         if not (1 <= x <= 5 and 1 <= y <= 5):
             raise QuixoError("Les positions x et y doivent être entre 1 et 5 inclusivement.")
-        if valeur not in["X", "O", " "]:
+        if valeur not in ["X", "O", " "]:
             raise QuixoError("Valeur du cube invalide.")
-
         self.plateau[x-1][y-1] = valeur
-
 
     def générer_le_plateau(self, plateau):
         """Génère un plateau de jeu
@@ -134,15 +127,10 @@ class Plateau:
                     raise QuixoError("Valeur du cube invalide.")
         return plateau
 
-
     def insérer_un_cube(self, cube, origine, direction):
         """Insère un cube dans le plateau
 
         Cette méthode appelle la méthode d'insertion appropriée selon la direction donnée.
-
-        À noter que la validation des positions sont faites dans
-        les méthodes __setitem__ et __getitem__. Vous devez donc en faire usage dans
-        les diverses méthodes d'insertion pour vous assurez que les positions sont valides.
 
         Args:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
@@ -157,12 +145,7 @@ class Plateau:
             raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
         if cube not in ["X", "O"]:
             raise QuixoError("Le cube à insérer ne peut pas être vide.")
-        
-# modification
-# validation de l'insertion du cube
-
         self.validation(origine, direction)
-
         if direction == "haut":
             self.insérer_par_le_haut(cube, origine)
         elif direction == "bas":
@@ -172,7 +155,6 @@ class Plateau:
         elif direction == "droite":
             self.insérer_par_la_droite(cube, origine)
 
-
     def insérer_par_le_bas(self, cube, origine):
         """Insère un cube dans le plateau en direction du bas
 
@@ -180,16 +162,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-# appel de la methode de validation à chaque fonction insérer 
+        x, y = origine  # Déplacez l'affectation de x, y avant son utilisation
         if not ((y == 1 and x in [1, 2, 3, 4, 5]) or (y in [2, 3, 4] and x in [1, 5])):
-           raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
+            raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "bas")
-        x, y = origine
         for i in range(4, 0, -1):
             self[(x, i+1)] = self[(x, i)]
         self[(x, 1)] = cube
-
-
 
     def insérer_par_le_haut(self, cube, origine):
         """Insère un cube dans le plateau en direction du haut
@@ -198,15 +177,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-# appel de la methode de validation à chaque fonction insérer 
+        x, y = origine  # Déplacez l'affectation de x, y avant son utilisation
         if not ((y == 5 and x in [1, 2, 3, 4, 5]) or (y in [2, 3, 4] and x in [1, 5])):
             raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "haut")
-        x, y = origine
         for i in range(1, 5):
             self[(x, i)] = self[(x, i+1)]
         self[(x, 5)] = cube
-
 
     def insérer_par_la_gauche(self, cube, origine):
         """Insère un cube dans le plateau en direction de la gauche
@@ -215,15 +192,13 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-# appel de la methode de validation à chaque fonction insérer 
+        x, y = origine  # Déplacez l'affectation de x, y avant son utilisation
         if not ((x == 5 and y in [1, 2, 3, 4, 5]) or (x in [2, 3, 4] and y in [1, 5])):
             raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "gauche")
-        x, y = origine
         for i in range(1, 5):
-            self[(i, y)] = self[i+1, y]
+            self[(i, y)] = self[(i+1, y)]
         self[(5, y)] = cube
-
 
     def insérer_par_la_droite(self, cube, origine):
         """Insère un cube dans le plateau en direction de la droite
@@ -232,17 +207,24 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-# appel de la methode de validation à chaque fonction insérer
+        x, y = origine  # Déplacez l'affectation de x, y avant son utilisation
         if not ((x == 1 and y in [1, 2, 3, 4, 5]) or (x in [2, 3, 4] and y in [1, 5])):
             raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "droite")
-        x, y = origine
         for i in range(4, 0, -1):
             self[(i+1, y)] = self[(i, y)]
         self[(1, y)] = cube
 
-
     def validation(self, origine, direction):
+        """Valide si un cube peut être inséré à une position donnée selon la direction
+
+        Args:
+            origine (list[int]): La position d'origine [x, y].
+            direction (str): La direction de l'insertion.
+
+        Raises:
+            QuixoError: Si l'insertion est impossible dans la direction choisie.
+        """
         x, y = origine
         if (
             (direction == "haut" and x == 1) or 
