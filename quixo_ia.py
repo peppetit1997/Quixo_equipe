@@ -12,23 +12,19 @@ class QuixoIA(Quixo):
 
     def lister_les_coups_possibles(self, plateau, cube):
         """Retourne une liste des coups possibles pour le cube donné."""
-        if cube not in ["X", "O"]:
-            raise QuixoError('Le cube doit être "X" ou "O".')
-        if self.partie_terminée():
-            raise QuixoError("La partie est déjà terminée.")
         print(f"Liste des coups possibles pour le cube {cube} :")
         Coups_possibles = []
         Coordonnees_disponibles = []
 
+        # Modifier les bornes de 0-4 à 1-5 pour respecter la validation des coordonnées
         for x in range(1, 6):  # Limiter x de 1 à 5
             for y in range(1, 6):  # Limiter y de 1 à 5
-                if (x in [1, 5] or y in [1, 5]) and (0 <= x < len(plateau)) and (0 <= y < len(plateau[x])):
-                    if plateau[x][y] == " " or plateau[x][y] == cube:  # Ne pas inclure les cases occupées par l'adversaire
+                if (x == 1 or x == 5 or y == 1 or y == 5):  # Bords du plateau
+                    if plateau[x-1][y-1] == " " or plateau[x-1][y-1] == cube:  # Ajuster l'indexation
                         Coordonnees_disponibles.append((x, y))
 
         for (x, y) in Coordonnees_disponibles:
-            if x > 1 and x < 5 and y > 1 and y < 5:
-                raise QuixoError("Le joueur ne peut pas déplacer un bloc intérieur, x ou y doit avoir la valeur 1 ou 5.")
+            # Vérification des bords du plateau pour éviter les déplacements hors des limites
             if x == 1:
                 Coups_possibles.append({"origine": (x, y), "direction": "haut"})
             if x == 5:
@@ -144,16 +140,24 @@ class QuixoIA(Quixo):
             origine_x, origine_y = coup["origine"]
             direction = coup["direction"]
 
+            # Vérification que le coup n'est pas en dehors des limites
+            if direction == "bas" and origine_x == 5:
+                continue  # Impossible de déplacer un cube de la dernière ligne vers le bas
+
+            # Vérification que le coup est sur un cube du joueur
+            if nouveau_plateau[origine_x-1][origine_y-1] != symbole and nouveau_plateau[origine_x-1][origine_y-1] != " ":
+                continue  # Passer ce coup si ce n'est pas un cube du joueur
+
             # Effectuer le coup sur une copie du plateau
-            nouveau_plateau[origine_x][origine_y] = ""
+            nouveau_plateau[origine_x-1][origine_y-1] = ""
             if direction == "haut":
-                nouveau_plateau[0][origine_y] = symbole
+                nouveau_plateau[0][origine_y-1] = symbole
             elif direction == "bas":
-                nouveau_plateau[4][origine_y] = symbole
+                nouveau_plateau[4][origine_y-1] = symbole
             elif direction == "gauche":
-                nouveau_plateau[origine_x][0] = symbole
+                nouveau_plateau[origine_x-1][0] = symbole
             elif direction == "droite":
-                nouveau_plateau[origine_x][4] = symbole
+                nouveau_plateau[origine_x-1][4] = symbole
 
             # Analyser l'état du plateau modifié
             analyse = self.analyser_le_plateau(nouveau_plateau)
@@ -163,6 +167,7 @@ class QuixoIA(Quixo):
         return None
 
     def trouver_un_coup_bloquant(self, symbole):
+        """Trouve un coup bloquant pour empêcher l'adversaire de gagner."""
         symbole_adversaire = "X" if symbole == "O" else "O"
         coup_vainqueur_adversaire = self.trouver_un_coup_vainqueur(symbole_adversaire)
 
@@ -172,19 +177,25 @@ class QuixoIA(Quixo):
         return None
 
     def jouer_un_coup(self, symbole):
+        """Joue un coup pour le joueur spécifié (X ou O)."""
         if self.partie_terminée() is not None:
             raise QuixoError("La partie est déjà terminée.")
         if symbole not in ["X", "O"]:
             raise QuixoError('Le symbole doit être "X" ou "O".')
 
+        # Trouver un coup gagnant
         coup_vainqueur = self.trouver_un_coup_vainqueur(symbole)
         if coup_vainqueur:
             return coup_vainqueur["origine"], coup_vainqueur["direction"]
 
+        # Trouver un coup bloquant
         coup_bloquant = self.trouver_un_coup_bloquant(symbole)
         if coup_bloquant:
             return coup_bloquant["origine"], coup_bloquant["direction"]
 
+        # Choisir un coup aléatoire parmi les coups possibles
         coups_possibles = self.lister_les_coups_possibles(self.plateau.état_plateau(), symbole)
+        if not coups_possibles:
+            raise QuixoError("Aucun coup possible.")
         coup_aleatoire = random.choice(coups_possibles)
         return coup_aleatoire["origine"], coup_aleatoire["direction"]

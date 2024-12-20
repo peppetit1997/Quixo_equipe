@@ -7,7 +7,7 @@ from quixo import Quixo, interpréter_la_commande
 from quixo_ia import QuixoIA
 
 # Mettre ici votre secret récupérer depuis le site de PAX
-SECRET = "525306d0-659f-4d30-bcc0-d20b30521b56"
+SECRET = "52f01beb-dd36-4a81-8485-cbb30659c2c5"
 
 
 if __name__ == "__main__":
