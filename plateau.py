@@ -251,21 +251,3 @@ class Plateau:
             (direction == "droite" and y == 5)
         ):
             raise QuixoError("Le cube ne peut pas être inséré dans cette direction depuis la position choisie.")
-
-
-# concernant notre main ! Je travaille a la comprehension du parse !
-# Ce soir peut etre je finirai !
-# pour le main voici mon idee :
-
-"""
-import argparse
-
-et dans le main rajouter les lignes de code tels que :
-
-parser = argprse.ArgumentParser(description='Jeu de Quixo')
-parser.add_argument('idul', type=str, help='IDUL du joueur')
-action=('store_true', help='Jouer de facon autonome')
-args = parser.parse_args()"""
-
-#Je l'ai pas rajouter au main parce qu'il y a encore des choses que je comprends pas.
-# Aussi je continue a travailler dessus et tu me dis ce que tu en penses.

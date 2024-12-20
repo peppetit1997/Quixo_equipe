@@ -12,7 +12,6 @@ class QuixoIA(Quixo):
 
     def lister_les_coups_possibles(self, plateau, cube):
         """Retourne une liste des coups possibles pour le cube donné."""
-        print(f"Liste des coups possibles pour le cube {cube} :")
         Coups_possibles = []
         Coordonnees_disponibles = []
 
@@ -34,7 +33,6 @@ class QuixoIA(Quixo):
             if y == 5:
                 Coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
-        print(f"Coups possibles : {Coups_possibles}")
         return Coups_possibles
 
     def analyser_le_plateau(self, plateau):
