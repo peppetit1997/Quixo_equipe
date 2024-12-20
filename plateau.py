@@ -181,7 +181,8 @@ class Plateau:
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
 # appel de la methode de validation à chaque fonction insérer 
-       
+        if not ((y == 1 and x in [1, 2, 3, 4, 5]) or (y in [2, 3, 4] and x in [1, 5])):
+           raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "bas")
         x, y = origine
         for i in range(4, 0, -1):
@@ -198,7 +199,8 @@ class Plateau:
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
 # appel de la methode de validation à chaque fonction insérer 
-        
+        if not ((y == 5 and x in [1, 2, 3, 4, 5]) or (y in [2, 3, 4] and x in [1, 5])):
+            raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "haut")
         x, y = origine
         for i in range(1, 5):
@@ -214,7 +216,8 @@ class Plateau:
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
 # appel de la methode de validation à chaque fonction insérer 
-        
+        if not ((x == 5 and y in [1, 2, 3, 4, 5]) or (x in [2, 3, 4] and y in [1, 5])):
+            raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "gauche")
         x, y = origine
         for i in range(1, 5):
@@ -229,8 +232,9 @@ class Plateau:
             cube (str): La valeur du cube à insérer, soit "X" ou "O".
             origine (list[int]): La position [x, y] d'origine du cube à insérer.
         """
-# appel de la methode de validation à chaque fonction insérer 
-
+# appel de la methode de validation à chaque fonction insérer
+        if not ((x == 1 and y in [1, 2, 3, 4, 5]) or (x in [2, 3, 4] and y in [1, 5])):
+            raise QuixoError("Le cube ne peut pas être inséré dans cette direction.")
         self.validation(origine, "droite")
         x, y = origine
         for i in range(4, 0, -1):

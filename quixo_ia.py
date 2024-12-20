@@ -12,6 +12,10 @@ class QuixoIA(Quixo):
 
     def lister_les_coups_possibles(self, plateau, cube):
         """Retourne une liste des coups possibles pour le cube donné."""
+        if cube not in ["X", "O"]:
+            raise QuixoError('Le cube doit être "X" ou "O".')
+        if self.partie_terminée():
+            raise QuixoError("La partie est déjà terminée.")
         print(f"Liste des coups possibles pour le cube {cube} :")
         Coups_possibles = []
         Coordonnees_disponibles = []
@@ -24,7 +28,7 @@ class QuixoIA(Quixo):
 
         for (x, y) in Coordonnees_disponibles:
             if x > 1 and x < 5 and y > 1 and y < 5:
-                raise RuntimeError("Le joueur ne peut pas déplacer un bloc intérieur, x ou y doit avoir la valeur 1 ou 5.")
+                raise QuixoError("Le joueur ne peut pas déplacer un bloc intérieur, x ou y doit avoir la valeur 1 ou 5.")
             if x == 1:
                 Coups_possibles.append({"origine": (x, y), "direction": "haut"})
             if x == 5:
