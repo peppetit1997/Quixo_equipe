@@ -25,7 +25,6 @@ class QuixoIA(Quixo):
         plateau -- État actuel du plateau.
         cube -- Symbole du cube pour lequel lister les coups possibles.
         """
-        print(f"Liste des coups possibles pour le cube {cube} :")
         coups_possibles = []
         coordonnees_disponibles = []
 
@@ -47,7 +46,6 @@ class QuixoIA(Quixo):
             if y == 5:
                 coups_possibles.append({"origine": (x, y), "direction": "droite"})
 
-        print(f"Coups possibles : {coups_possibles}")
         return coups_possibles
 
     def analyser_le_plateau(self, plateau):
