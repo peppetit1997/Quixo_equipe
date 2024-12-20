@@ -77,7 +77,7 @@ class Quixo:
             origine (list[int]): La position (x, y) du pion sur le plateau.
             direction (str): La direction du déplacement, soit "haut", "bas", "gauche" ou "droite".
         """
-        if pion not in ["X", "o"]:
+        if pion not in ["X", "O"]:
             raise QuixoError("Le pion doit etre 'X' ou 'O'.")
         if direction not in ["haut", "bas", "gauche", "droite"]:
             raise QuixoError("La direction doit être 'haut', 'bas', 'gauche' ou 'droite'.")
