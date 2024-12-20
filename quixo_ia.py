@@ -49,7 +49,7 @@ class QuixoIA(Quixo):
             compteur_x = 0
             compteur_o = 0
             for y in range(5):
-                if plateau[x][y] == "x":
+                if plateau[x][y] == "X":
                     compteur_x += 1
                     compteur_o = 0
                 elif plateau[x][y] == "O":
@@ -68,7 +68,7 @@ class QuixoIA(Quixo):
             compteur_x = 0
             compteur_o = 0
             for x in range(5):
-                if plateau[x][y] == "x":
+                if plateau[x][y] == "X":
                     compteur_x += 1
                     compteur_o = 0
                 elif plateau[x][y] == "O":
@@ -86,7 +86,7 @@ class QuixoIA(Quixo):
         compteur_x = 0
         compteur_o = 0
         for i in range(5):
-            if plateau[i][i] == "x":
+            if plateau[i][i] == "X":
                 compteur_x += 1
                 compteur_o = 0
             elif plateau[i][i] == "O":
@@ -104,7 +104,7 @@ class QuixoIA(Quixo):
         compteur_x = 0
         compteur_o = 0
         for i in range(5):
-            if plateau[i][4 - i] == "x":
+            if plateau[i][4 - i] == "X":
                 compteur_x += 1
                 compteur_o = 0
             elif plateau[i][4 - i] == "O":
